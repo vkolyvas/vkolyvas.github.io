@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 
 const links = [
   { label: "GitHub", href: "https://github.com/vkolyvas" },
-  { label: "LinkedIn", href: "#" },
-  { label: "Email", href: "mailto:contact@vkolyvas.com" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/vasiliskolyvasmsc/" },
+  { label: "Email", href: "mailto:vkolyvas@gmail.com" },
 ];
 
 export function Contact() {

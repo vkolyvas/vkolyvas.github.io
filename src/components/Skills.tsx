@@ -3,10 +3,10 @@
 import { motion } from "framer-motion";
 
 const skills = [
-  { category: "AI / Agents", items: ["Multi-Agent Systems", "RAG", "LLM Orchestration", "NeMo Guardrails"] },
+  { category: "AI / Agents", items: ["Multi-Agent Systems", "RAG", "LLM Orchestration"] },
   { category: "Infrastructure", items: ["Kubernetes", "Docker", "GitHub Actions", "GPU Deployment"] },
   { category: "Backend", items: ["Python", "TypeScript", "PostgreSQL", "Redis"] },
-  { category: "Cloud", items: ["AWS", "Azure", "GCP", "Triton Inference Server"] },
+  { category: "Cloud", items: ["AWS", "Azure", "GCP"] },
 ];
 
 export function Skills() {
