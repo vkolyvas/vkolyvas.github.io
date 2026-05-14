@@ -6,6 +6,8 @@ import { CTA } from "@/components/CTA";
 import { Stats } from "@/components/Stats";
 import { Projects } from "@/components/Projects";
 import { Skills } from "@/components/Skills";
+import { CV } from "@/components/CV";
+import { Certifications } from "@/components/Certifications";
 import { Contact } from "@/components/Contact";
 
 export function Hero() {
@@ -25,6 +27,8 @@ export function Hero() {
       </section>
       <Projects />
       <Skills />
+      <CV />
+      <Certifications />
       <Contact />
     </>
   );
