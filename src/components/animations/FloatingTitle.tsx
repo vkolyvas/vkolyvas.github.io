@@ -33,13 +33,13 @@ export function Subtitle() {
       transition={{ delay: 0.6, duration: 0.6, ease: "easeOut" }}
       className="text-lg sm:text-xl text-[var(--muted)] mt-4 tracking-wide"
     >
-      Software Engineer · Distributed Systems · Infrastructure
+      AI Solution Architect · Distributed Systems · Infrastructure
     </motion.p>
   );
 }
 
 export function Tagline() {
-  const tags = ["Security-Focused", "Full Stack", "Production-Scale"];
+  const tags = ["Agentic AI", "Multi-Agent Systems", "Production-Scale"];
   return (
     <div className="flex flex-wrap gap-2 mt-6 justify-center">
       <AnimatePresence>
