@@ -6,7 +6,7 @@ const stats = [
   { label: "Years Building", value: "8+" },
   { label: "Repositories", value: "35+" },
   { label: "AI Projects", value: "6+" },
-  { label: "Certifications", value: "3+" },
+  { label: "Certifications", value: "8+" },
 ];
 
 export function Stats() {
