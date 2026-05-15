@@ -25,6 +25,20 @@ const projects = [
     stars: 1,
   },
   {
+    name: "WhisperMeetAI",
+    description: "AI-Powered Meeting Intelligence — Fully Local Browser Application",
+    tags: ["AI", "Voice", "Browser"],
+    link: "https://github.com/vkolyvas/WhisperMeetAI",
+    stars: 0,
+  },
+  {
+    name: "Defense AI",
+    description: "ISR semantic reconstruction — behavioral early warning architecture",
+    tags: ["ISR", "Python", "FastAPI"],
+    link: "#",
+    stars: 0,
+  },
+  {
     name: "Asynthesis",
     description: "Self-improving AI agency engine with evaluation",
     tags: ["Agents", "RL", "Python"],
