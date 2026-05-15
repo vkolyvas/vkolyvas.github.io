@@ -23,6 +23,15 @@ export function CTA() {
       >
         Get in Touch
       </motion.a>
+      <motion.a
+        href="/blog/"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.6, duration: 0.5 }}
+        className="px-6 py-3 border border-[var(--border)] rounded-full text-sm font-medium hover:bg-[var(--accent)] transition-colors"
+      >
+        Blog
+      </motion.a>
     </div>
   );
 }
