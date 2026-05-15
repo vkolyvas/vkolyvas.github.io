@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import BlogClient, { categories, type PostCategory } from "@/components/blog/BlogClient";
+import { LogoSimple } from "@/components/LogoSimple";
 
 export default function Blog() {
   const [selected, setSelected] = useState<PostCategory | "All">("All");
@@ -10,6 +12,9 @@ export default function Blog() {
   return (
     <div className="min-h-screen py-24 px-6">
       <div className="max-w-3xl mx-auto">
+        <Link href="/" className="inline-block mb-8">
+          <LogoSimple />
+        </Link>
         <motion.h1
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
