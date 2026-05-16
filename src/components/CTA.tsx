@@ -32,6 +32,15 @@ export function CTA() {
       >
         Blog
       </motion.a>
+      <motion.a
+        href="/certifications"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.7, duration: 0.5 }}
+        className="px-6 py-3 border border-[var(--border)] rounded-full text-sm font-medium hover:bg-[var(--accent)] transition-colors"
+      >
+        Certifications
+      </motion.a>
     </div>
   );
 }
