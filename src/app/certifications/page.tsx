@@ -3,18 +3,10 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { LogoSimple } from "@/components/LogoSimple";
-import { ncpQuestions } from "@/components/blog/ncpQuestions";
-import { useState } from "react";
+import { posts } from "@/components/blog/data";
 
 export default function Certifications() {
-  const [showAnswers, setShowAnswers] = useState(false);
-
-  const isCorrect = (q: typeof ncpQuestions[number], idx: number) => {
-    if (Array.isArray(q.correct)) {
-      return q.correct.includes(idx);
-    }
-    return idx === q.correct;
-  };
+  const certifications = posts.filter((post) => post.category === "Certifications");
 
   return (
     <div className="min-h-screen py-24 px-6">
@@ -37,57 +29,30 @@ export default function Certifications() {
           </p>
         </motion.div>
 
-        <div className="mb-8">
-          <Link
-            href="/blog/ncp-ai-certification-prep"
-            className="inline-block px-4 py-2 text-sm border border-[var(--border)] rounded-full hover:border-[var(--foreground)] transition-colors"
-          >
-            ← Back to Blog
-          </Link>
-        </div>
-
         <div className="space-y-6">
-          {ncpQuestions.map((q) => (
-            <motion.div
-              key={q.id}
+          {certifications.map((cert) => (
+            <motion.article
+              key={cert.slug}
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="p-6 border border-[var(--border)] rounded-xl"
+              className="p-6 border border-[var(--border)] rounded-xl hover:border-[var(--foreground)] transition-colors group"
             >
-              <p className="font-medium mb-4">
-                {q.id}. {q.question}
-              </p>
-              <div className="space-y-2">
-                {q.options.map((option, idx) => (
-                  <div
-                    key={idx}
-                    className={`p-3 rounded-lg text-sm ${
-                      showAnswers && isCorrect(q, idx)
-                        ? "bg-green-100 dark:bg-green-900/30 border border-green-500"
-                        : "bg-[var(--card)]"
-                    }`}
-                  >
-                    <span className="font-mono text-xs mr-2 opacity-50">{String.fromCharCode(65 + idx)}.</span>
-                    {option}
-                    {showAnswers && isCorrect(q, idx) && (
-                      <span className="ml-2 text-green-600 dark:text-green-400 font-medium">✓</span>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
+              <Link href={`/certifications/${cert.slug}`} className="block">
+                <div className="flex items-center gap-3 mb-2">
+                  {cert.tags.map((tag) => (
+                    <span key={tag} className="text-xs px-2 py-1 rounded-full bg-[var(--foreground)] text-[var(--background)]">
+                      {tag}
+                    </span>
+                  ))}
+                  <span className="text-xs text-[var(--muted)]">{cert.date}</span>
+                </div>
+                <h3 className="text-lg font-medium mb-2 group-hover:underline">{cert.title}</h3>
+                <p className="text-sm text-[var(--muted)]">{cert.excerpt}</p>
+              </Link>
+            </motion.article>
           ))}
         </div>
-      </div>
-
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-        <button
-          onClick={() => setShowAnswers(!showAnswers)}
-          className="px-6 py-3 text-sm bg-[var(--foreground)] text-[var(--background)] rounded-full hover:opacity-80 transition-opacity shadow-lg"
-        >
-          {showAnswers ? "Hide Answers" : "Show Answers"}
-        </button>
       </div>
     </div>
   );
