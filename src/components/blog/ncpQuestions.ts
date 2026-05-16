@@ -983,4 +983,30 @@ export const ncpQuestions: Question[] = [
     ],
     correct: 0,
   },
+  {
+    id: 83,
+    question:
+      "A Lead AI Architect at a global financial institution is designing a multi-agent fraud detection system using an agentic AI framework. The system must operate in real time, with distinct agents working collaboratively to monitor and analyze transactional patterns across accounts, retain and share contextual information over time, and escalate suspicious behaviors to a human fraud analyst when needed. Which architectural approach enables intelligent specialization, shared memory, and inter-agent coordination in a dynamic and evolving threat environment?",
+    options: [
+      "Design a modular multi-agent system where individual agents collaborate asynchronously using shared memory and structured messaging.",
+      "Design a multi-agent system where individual agents collaborate synchronously using shared memory and structured messaging.",
+      "Design a centralized rule-based service that checks all transactions against static fraud indicators and sends alerts when thresholds are exceeded.",
+      "Design an agentic workflow where each agent acts independently on isolated data slices with no inter-agent communication to reduce latency and model complexity.",
+      "Design monolithic LLM-based agents that handle all fraud detection tasks within a single loop, without modular roles or multi-agent coordination.",
+    ],
+    correct: 0,
+  },
+  {
+    id: 84,
+    question:
+      "Which two coordination patterns are MOST effective for implementing a multi-agent system where agents have different specializations (Research Analyst, Content Writer, Quality Validator)?",
+    options: [
+      "Sequential pipeline coordination with crew-based structured handoffs.",
+      "Peer-to-peer coordination with consensus mechanisms.",
+      "Random task distribution with load balancing.",
+      "Hierarchical coordination with crew-based task delegation.",
+    ],
+    correct: [0, 3],
+    multiCorrect: true,
+  },
 ];
