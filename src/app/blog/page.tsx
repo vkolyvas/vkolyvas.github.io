@@ -8,6 +8,7 @@ import { LogoSimple } from "@/components/LogoSimple";
 
 export default function Blog() {
   const [selected, setSelected] = useState<PostCategory | "All">("All");
+  const blogCategories = (categories as PostCategory[]).filter((cat) => cat !== "Certifications");
 
   return (
     <div className="min-h-screen py-24 px-6">
@@ -24,7 +25,7 @@ export default function Blog() {
           Writing
         </motion.h1>
         <p className="text-[var(--muted)] mb-8">
-          Certifications, project afterthoughts, and insights from building AI systems.
+          Project afterthoughts and insights from building AI systems.
         </p>
 
         <div className="flex flex-wrap gap-2 mb-12">
@@ -38,7 +39,7 @@ export default function Blog() {
           >
             All
           </button>
-          {(categories as PostCategory[]).map((cat) => (
+          {blogCategories.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelected(cat)}
