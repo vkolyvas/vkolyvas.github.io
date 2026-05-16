@@ -12,7 +12,8 @@ interface BlogClientProps {
 }
 
 function BlogClient({ selectedCategory = "All" }: BlogClientProps) {
-  const filtered = selectedCategory === "All" ? posts : posts.filter((p) => p.category === selectedCategory);
+  const blogPosts = posts.filter((p) => p.category !== "Certifications");
+  const filtered = selectedCategory === "All" ? blogPosts : blogPosts.filter((p) => p.category === selectedCategory);
 
   return (
     <div className="space-y-8">
