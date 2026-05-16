@@ -260,4 +260,374 @@ export const sapC02Questions: Question[] = [
     correct: [0, 2],
     multiCorrect: true,
   },
+  {
+    id: 21,
+    question:
+      "A company is planning to migrate an Aurora MySQL database to AWS. The company wants to minimize downtime during the migration. The database is approximately 10 TB in size. Which approach will meet these requirements?",
+    options: [
+      "A. Use AWS DMS (Database Migration Service) with change data capture (CDC) to migrate the database with minimal downtime.",
+      "B. Create an Aurora read replica from the source database and promote it when caught up.",
+      "C. Use an Aurora MySQL backup to restore to a new Aurora cluster and update the application connection string.",
+      "D. Use mysqldump to export the database and import it into a new Aurora cluster.",
+    ],
+    correct: [0, 1],
+    multiCorrect: true,
+  },
+  {
+    id: 22,
+    question:
+      "A company is experiencing intermittent 502 Bad Gateway errors from their Application Load Balancer (ALB). The backend targets are EC2 instances running a Node.js application. Which combination of steps will help diagnose the issue? (Choose two.)",
+    options: [
+      "A. Check the ALB target health status and verify that targets are passing health checks.",
+      "B. Review CloudWatch metrics for the ALB to identify patterns in when 502 errors occur.",
+      "C. Enable access logs on the ALB and analyze the logs for failed requests.",
+      "D. Check the security groups associated with the ALB and backend instances.",
+      "E. Verify that the backend application is returning responses within the ALB idle timeout.",
+    ],
+    correct: [0, 4],
+    multiCorrect: true,
+  },
+  {
+    id: 23,
+    question:
+      "A company is designing a high availability architecture for a Tomcat-based web application with a MySQL database. The application requires session persistence and needs to handle 10,000 concurrent users. Which combination of changes will meet these requirements? (Choose three.)",
+    options: [
+      "A. Deploy Tomcat instances across multiple Availability Zones in an Auto Scaling group.",
+      "B. Use Amazon RDS Multi-AZ for the MySQL database.",
+      "C. Implement sticky sessions using the ALB session cookie.",
+      "D. Use DynamoDB for session storage instead of local session management.",
+      "E. Deploy a Network Load Balancer instead of Application Load Balancer.",
+      "F. Implement ElastiCache for Redis session storage.",
+    ],
+    correct: [0, 1, 5],
+    multiCorrect: true,
+  },
+  {
+    id: 24,
+    question:
+      "A gaming company is building a platform to distribute game downloads. The downloads range from 500 MB to 50 GB. The company wants to minimize latency for global users while keeping costs low. Which approach will meet these requirements?",
+    options: [
+      "A. Store downloads in S3 and use S3 Transfer Acceleration for fast global access.",
+      "B. Store downloads in S3 and use CloudFront to cache content at edge locations globally.",
+      "C. Deploy the downloads to EC2 instances in each AWS Region.",
+      "D. Use AWS Global Accelerator to route users to the nearest EC2 endpoint.",
+    ],
+    correct: 2,
+  },
+  {
+    id: 25,
+    question:
+      "A company has an existing CloudFormation stack and wants to update it to include new resources without replacing existing resources. How can this be achieved?",
+    options: [
+      "A. Use CloudFormation drift detection to update the stack.",
+      "B. Use CloudFormation import existing resources to add new resources to the stack.",
+      "C. Create a new CloudFormation stack with the desired resources and update the application to point to the new stack.",
+      "D. Delete the existing stack and recreate it with the updated template.",
+    ],
+    correct: 2,
+  },
+  {
+    id: 26,
+    question:
+      "A company needs to inspect all outbound traffic from their VPC for security analysis. All traffic to the internet must pass through a centralized inspection point. Which solution will meet these requirements?",
+    options: [
+      "A. Deploy a transparent security proxy using EC2 instances in a central VPC.",
+      "B. Use AWS Network Firewall with stateless rules to inspect traffic.",
+      "C. Configure a VPC gateway endpoint for Amazon S3 and route all traffic through it.",
+      "D. Deploy AWS WAF and configure it to inspect all outbound traffic.",
+    ],
+    correct: 0,
+  },
+  {
+    id: 27,
+    question:
+      "A company is running a Lambda function that connects to an RDS PostgreSQL database. After deploying a new version of the application, Lambda functions are timing out when trying to connect to the database. What could be causing this issue?",
+    options: [
+      "A. The Lambda function's security group is blocking outbound traffic to the RDS instance.",
+      "B. The RDS instance is in a different VPC than the Lambda function.",
+      "C. The database credentials have expired.",
+      "D. The Lambda function does not have a VPC connector configured.",
+    ],
+    correct: 3,
+  },
+  {
+    id: 28,
+    question:
+      "A company wants to use AWS Elastic Disaster Recovery (DRS) to protect their on-premises servers. What is required to set up continuous replication with DRS?",
+    options: [
+      "A. Install the DRS Agent on all servers that need to be protected.",
+      "B. Configure a Site-to-Site VPN between the on-premises network and AWS.",
+      "C. Deploy a replication agent on an EC2 instance in the disaster recovery VPC.",
+      "D. Create an AWS Direct Connect connection to enable replication.",
+    ],
+    correct: 1,
+  },
+  {
+    id: 29,
+    question:
+      "A company has implemented AWS Control Tower and wants to enable securityHub within their organization. Which approach will ensure that Security Hub is enabled for all accounts?",
+    options: [
+      "A. Enable Security Hub manually in each account.",
+      "B. Create a Service Control Policy (SCP) that requires all accounts to enable Security Hub.",
+      "C. Use the Security Hub delegated administrator account to enable Security Hub organization-wide.",
+      "D. Deploy Security Hub using AWS CloudFormation StackSets across all accounts.",
+    ],
+    correct: 3,
+  },
+  {
+    id: 30,
+    question:
+      "A company serves content through CloudFront with an ALB origin. Users are reporting authentication failures when accessing the application through CloudFront. What could be causing this?",
+    options: [
+      "A. CloudFront is not forwarding authentication headers to the ALB.",
+      "B. The ALB security group is not allowing traffic from CloudFront IP ranges.",
+      "C. The SSL certificate on the ALB does not match the CloudFront distribution domain name.",
+      "D. CloudFront is caching authenticated responses.",
+    ],
+    correct: 0,
+  },
+  {
+    id: 31,
+    question:
+      "A company needs to migrate 50 EC2 instances from one AWS account to another with the fewest changes possible to the existing architecture. The instances are running in a VPC that has a CIDR block of 10.0.0.0/16. The target account also has a VPC with a CIDR block of 10.0.0.0/16. Which migration approach will meet these requirements?",
+    options: [
+      "A. Use VM Import/Export to create AMIs and copy them to the target account, then launch instances from the AMIs.",
+      "B. Use AWS Systems Manager Automation to migrate the instances by creating new instances in the target account.",
+      "C. Create a VPC peering connection between the two VPCs, then use rsync to migrate data while keeping the same IP addresses.",
+      "D. Use AWS Application Migration Service for a lift-and-shift migration.",
+    ],
+    correct: 1,
+  },
+  {
+    id: 32,
+    question:
+      "A company is experiencing performance issues with their DynamoDB table during peak traffic periods. The table is configured with on-demand capacity mode, but throttling is occurring. What could be causing this?",
+    options: [
+      "A. The table has reached its maximum provisioned throughput limit.",
+      "B. A GSI (Global Secondary Index) is being throttled due to insufficient write capacity.",
+      "C. The table's partition key is causing hot partitions.",
+      "D. DynamoDB auto scaling is not configured for the table.",
+    ],
+    correct: 1,
+  },
+  {
+    id: 33,
+    question:
+      "A company needs to transfer 60 TB of data from an on-premises NFS server to Amazon S3. The company has a 1 Gbps Direct Connect connection. Which approach will complete the transfer most cost-effectively?",
+    options: [
+      "A. Use AWS DataSync to transfer the data over the Direct Connect connection.",
+      "B. Use S3 Transfer Acceleration with multipart upload.",
+      "C. Ship the data using AWS Snowball Edge Storage Optimized devices.",
+      "D. Use AWS S3 CLI with sync command over the Direct Connect connection.",
+    ],
+    correct: 0,
+  },
+  {
+    id: 34,
+    question:
+      "A company is building a Lambda function that accesses secrets stored in AWS Secrets Manager. The Lambda function is deployed in a VPC. After a recent update, the Lambda function is unable to retrieve secrets. What could be causing this issue?",
+    options: [
+      "A. The Lambda function's execution role does not have permissions to access Secrets Manager.",
+      "B. Secrets Manager VPC endpoint is not configured in the Lambda function's VPC.",
+      "C. The Lambda function timeout is too short.",
+      "D. The secrets in Secrets Manager have expired.",
+    ],
+    correct: 1,
+  },
+  {
+    id: 35,
+    question:
+      "A company is building an order processing system using SQS and Lambda. Orders must be processed in the order they are received, and each order must be processed exactly once. How should this be implemented?",
+    options: [
+      "A. Use an SQS FIFO queue with a Lambda function as the consumer.",
+      "B. Use an SQS standard queue with a Lambda function as the consumer and enable deduplication.",
+      "C. Use an SQS FIFO queue with an EC2 instance as the consumer.",
+      "D. Use Amazon Kinesis Data Streams with a Lambda function as the consumer.",
+    ],
+    correct: 1,
+  },
+  {
+    id: 36,
+    question:
+      "A company needs to receive alerts when their monthly EC2 costs exceed a certain threshold. The company wants to receive alerts before the costs are incurred, not after. Which approach will meet these requirements?",
+    options: [
+      "A. Set up AWS Budgets with cost alerts to notify when forecasted costs exceed the threshold.",
+      "B. Use CloudWatch alarms on AWS/Billing namespace metrics.",
+      "C. Review the AWS Cost Explorer dashboard daily for cost forecasts.",
+      "D. Enable detailed billing reports and analyze them with a Lambda function.",
+    ],
+    correct: 0,
+  },
+  {
+    id: 37,
+    question:
+      "A company is deploying IoT devices that need to be provisioned securely at scale. Each device should receive unique credentials and be associated with a device certificate. Which AWS IoT service combination will meet these requirements?",
+    options: [
+      "A. Use AWS IoT Core with Just-in-Time Provisioning (JITP) to automatically provision devices.",
+      "B. Use AWS IoT Device Management with fleet provisioning.",
+      "C. Use AWS IoT Core with pre-provisioned certificates.",
+      "D. Use AWS Systems Manager IoT to manage device provisioning.",
+    ],
+    correct: 2,
+  },
+  {
+    id: 38,
+    question:
+      "A company wants to add multi-factor authentication (MFA) to their Cognito user pool. Users should be prompted for MFA when signing in from a new device. The application uses an ALB for authentication. How should MFA be implemented?",
+    options: [
+      "A. Enable MFA in the Cognito user pool and configure the ALB to forward MFA tokens.",
+      "B. Use Cognito with an application load balancer that has authentication enabled.",
+      "C. Implement MFA at the application level before calling Cognito.",
+      "D. Use AWS IAM with MFA for all user authentication.",
+    ],
+    correct: 0,
+  },
+  {
+    id: 39,
+    question:
+      "An organization wants to prevent all accounts in their AWS Organization from launching EC2 instances with public IP addresses. Which SCP will meet this requirement?",
+    options: [
+      "A. Create an SCP that denies ec2:RunInstances when the request includes a public IP address.",
+      "B. Create an SCP that denies ec2:DescribeInstances with a condition for public IP addresses.",
+      "C. Create an SCP that allows only specific instance types that do not support public IPs.",
+      "D. Create an SCP that denies all ec2:* actions.",
+    ],
+    correct: 2,
+  },
+  {
+    id: 40,
+    question:
+      "A company is building a multi-tenant SaaS application where each tenant's data is stored in a dedicated DynamoDB table. The company wants to optimize costs by sharing infrastructure across tenants while maintaining data isolation. Which approach will meet these requirements?",
+    options: [
+      "A. Use DynamoDB shared table mode with tenant ID as the partition key.",
+      "B. Provision separate capacity for each tenant's table.",
+      "C. Use DynamoDB on-demand mode for all tenant tables.",
+      "D. Store all tenant data in a single S3 bucket with tenant-specific prefixes.",
+    ],
+    correct: 1,
+  },
+  {
+    id: 41,
+    question:
+      "A company is setting up a CI/CD pipeline using CodePipeline. The pipeline pulls code from GitHub and runs builds on Jenkins instances. The pipeline should trigger builds when code is pushed to GitHub. How should this be configured?",
+    options: [
+      "A. Configure a CodePipeline webhook that triggers on GitHub push events.",
+      "B. Use a Jenkins plugin to poll GitHub for code changes.",
+      "C. Schedule CodePipeline to run builds at regular intervals.",
+      "D. Configure GitHub to call the CodePipeline API on each push.",
+    ],
+    correct: 1,
+  },
+  {
+    id: 42,
+    question:
+      "A company needs to enforce MFA deletion on their S3 buckets to prevent accidental deletion of data. Which combination of steps will meet this requirement? (Choose two.)",
+    options: [
+      "A. Enable versioning on the S3 bucket.",
+      "B. Enable MFA delete on the S3 bucket.",
+      "C. Create an IAM policy that requires MFA for s3:DeleteObject action.",
+      "D. Enable S3 Object Lock with governance mode.",
+      "E. Use S3 Intelligent-Tiering to protect the data.",
+    ],
+    correct: [0, 1],
+    multiCorrect: true,
+  },
+  {
+    id: 43,
+    question:
+      "A company is building a SaaS application where tenants will have their own isolated database schemas in an RDS PostgreSQL database. Each tenant should have dedicated resources and the application should scale automatically. Which database architecture will meet these requirements?",
+    options: [
+      "A. Use RDS PostgreSQL with a separate database for each tenant.",
+      "B. Use Amazon Aurora Serverless with per-tenant databases.",
+      "C. Use a multi-tenant architecture with row-level security in a shared database.",
+      "D. Use Amazon DynamoDB with tenant-specific tables.",
+    ],
+    correct: 3,
+  },
+  {
+    id: 44,
+    question:
+      "A company is planning a migration from a VMware on-premises environment to AWS. The company wants to discover existing servers and understand their dependencies before migration. Which approach will meet these requirements?",
+    options: [
+      "A. Deploy the AWS Application Discovery Service agentless connector in the VMware environment.",
+      "B. Use AWS Direct Connect to connect to VMware and use VM Import.",
+      "C. Install the Systems Manager agent on each VM manually.",
+      "D. Export the VMware inventory to a CSV and import it into Migration Hub.",
+    ],
+    correct: 0,
+  },
+  {
+    id: 45,
+    question:
+      "A company is building a gaming platform that serves game downloads from S3. The downloads are large files (5-50 GB) and the company wants to minimize latency for global users. The company also wants to protect the content from unauthorized access. Which approach will meet these requirements?",
+    options: [
+      "A. Store downloads in S3 and serve them through CloudFront with signed URLs.",
+      "B. Store downloads in S3 and use S3 Transfer Acceleration for all downloads.",
+      "C. Deploy downloads to EC2 instances in multiple regions.",
+      "D. Use AWS Global Accelerator with EC2 instances serving the downloads.",
+    ],
+    correct: 2,
+  },
+  {
+    id: 46,
+    question:
+      "A company is deploying infrastructure across multiple accounts using CloudFormation StackSets. The company wants to ensure that IAM roles are created consistently across all accounts. Which approach will meet these requirements?",
+    options: [
+      "A. Create the IAM roles as part of the StackSet template and use self-managed permissions.",
+      "B. Pre-create IAM roles in each account before deploying the StackSet.",
+      "C. Use AWS Organizations service control policies to create IAM roles.",
+      "D. Deploy IAM roles using AWS Config conformance packs.",
+    ],
+    correct: 0,
+  },
+  {
+    id: 47,
+    question:
+      "A company has enabled Security Hub in their organization and wants to designate a specific account as the Security Hub administrator for all member accounts. Which approach will meet this requirement?",
+    options: [
+      "A. Use the Security Hub console to designate a member account as the administrator.",
+      "B. Use AWS Organizations to set the Security Hub delegated administrator.",
+      "C. Create an SCP that enforces Security Hub enablement in all accounts.",
+      "D. Enable Security Hub manually in each account and configure cross-account settings.",
+    ],
+    correct: 3,
+  },
+  {
+    id: 48,
+    question:
+      "A company is designing a disaster recovery strategy for their multi-tier web application. The application uses an RDS PostgreSQL database with read replicas. The company wants to achieve an RPO of 1 minute and an RTO of 15 minutes. Which architecture will meet these requirements?",
+    options: [
+      "A. Use RDS Multi-AZ with synchronous replication and configure automated backups.",
+      "B. Use RDS with a read replica in a secondary Region and use CloudFormation for automated failover.",
+      "C. Use Aurora Global Database with automatic failover to a secondary Region.",
+      "D. Use RDS with automated snapshots and restore manually in case of failure.",
+    ],
+    correct: 2,
+  },
+  {
+    id: 49,
+    question:
+      "A company needs to implement a centralized logging solution for all AWS accounts in their organization. The company wants to query logs using SQL. Which combination of steps will meet these requirements? (Choose two.)",
+    options: [
+      "A. Configure CloudTrail to send logs to an S3 bucket in a central account.",
+      "B. Use CloudWatch Logs to aggregate logs from all accounts.",
+      "C. Use Amazon Athena to query CloudTrail logs stored in S3.",
+      "D. Configure VPC Flow Logs in each account and send them to CloudWatch.",
+      "E. Use AWS X-Ray for distributed tracing across accounts.",
+    ],
+    correct: [0, 2],
+    multiCorrect: true,
+  },
+  {
+    id: 50,
+    question:
+      "A company is running a web application on EC2 instances behind an ELB. The company wants to implement SSL/TLS termination at the ELB level while ensuring that traffic between the ELB and backend instances is encrypted. Which configuration will meet these requirements?",
+    options: [
+      "A. Attach an ACM certificate to the ELB and enable SSL on the backend instances.",
+      "B. Attach an ACM certificate to the ELB and use a self-signed certificate on backend instances.",
+      "C. Use a third-party certificate on the ELB and terminate SSL on backend instances.",
+      "D. Configure the ELB for pass-through SSL and terminate SSL on the backend instances.",
+    ],
+    correct: 0,
+  },
 ];
