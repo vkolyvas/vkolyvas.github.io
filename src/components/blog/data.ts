@@ -122,6 +122,18 @@ export const posts: BlogPost[] = [
     whatWentWrong: "The breadth of the exam is intimidating. Agentic AI touches so many domains — orchestration frameworks, memory systems, tool use protocols, safety guardrails — that compartmentalizing study time is challenging. I kept falling into rabbit holes rather than maintaining exam-focused progress.",
     whatHelps: "Hands-on projects. Building secbrain and SchemaWiki gave me practical experience with MCP, memory systems, and agent communication patterns that no amount of passive studying could replace. The certification validates practical understanding, not just theoretical knowledge.",
   },
+  {
+    slug: "sap-c02-aws-solutions-architect-professional",
+    title: "AWS Solutions Architect Professional: My Study Path",
+    excerpt:
+      "Practice questions for the AWS Certified Solutions Architect Professional (SAP-C02) exam. Focus areas: cost optimization, security, high availability, and disaster recovery.",
+    date: "2026-05-16",
+    category: "Certifications",
+    tags: ["SAP-C02", "AWS", "Solutions Architect"],
+    whyBuilt: "The SAP-C02 is one of the most challenging AWS certifications. Building this study guide helps consolidate knowledge across AWS services, architectural patterns, and best practices for enterprise-scale deployments.",
+    whatWentWrong: "The exam covers a massive breadth of AWS services. Balancing study time across networking, security, cost optimization, and migration strategies while maintaining depth in each area is difficult.",
+    whatHelps: "Hands-on labs and real-world architectural experience. The exam tests not just knowledge but the ability to make trade-offs between competing requirements — something that only comes from building systems.",
+  },
 ];
 
 export const categories: PostCategory[] = ["Certifications", "Project Afterthoughts", "Insights"];
