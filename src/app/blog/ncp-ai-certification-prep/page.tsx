@@ -9,6 +9,13 @@ import { LogoSimple } from "@/components/LogoSimple";
 export default function NcpCertificationPrep() {
   const [showAnswers, setShowAnswers] = useState(false);
 
+  const isCorrect = (q: typeof ncpQuestions[number], idx: number) => {
+    if (Array.isArray(q.correct)) {
+      return q.correct.includes(idx);
+    }
+    return idx === q.correct;
+  };
+
   return (
     <div className="min-h-screen py-24 px-6">
       <div className="max-w-3xl mx-auto">
@@ -46,15 +53,6 @@ export default function NcpCertificationPrep() {
           </div>
         </motion.div>
 
-        <div className="mb-8">
-          <button
-            onClick={() => setShowAnswers(!showAnswers)}
-            className="px-4 py-2 text-sm bg-[var(--foreground)] text-[var(--background)] rounded-full hover:opacity-80 transition-opacity"
-          >
-            {showAnswers ? "Hide Answers" : "Show Answers"}
-          </button>
-        </div>
-
         <div className="space-y-6">
           {ncpQuestions.map((q) => (
             <motion.div
@@ -72,14 +70,14 @@ export default function NcpCertificationPrep() {
                   <div
                     key={idx}
                     className={`p-3 rounded-lg text-sm ${
-                      showAnswers && idx === q.correct
+                      showAnswers && isCorrect(q, idx)
                         ? "bg-green-100 dark:bg-green-900/30 border border-green-500"
                         : "bg-[var(--card)]"
                     }`}
                   >
                     <span className="font-mono text-xs mr-2 opacity-50">{String.fromCharCode(65 + idx)}.</span>
                     {option}
-                    {showAnswers && idx === q.correct && (
+                    {showAnswers && isCorrect(q, idx) && (
                       <span className="ml-2 text-green-600 dark:text-green-400 font-medium">✓</span>
                     )}
                   </div>
@@ -88,6 +86,15 @@ export default function NcpCertificationPrep() {
             </motion.div>
           ))}
         </div>
+      </div>
+
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+        <button
+          onClick={() => setShowAnswers(!showAnswers)}
+          className="px-6 py-3 text-sm bg-[var(--foreground)] text-[var(--background)] rounded-full hover:opacity-80 transition-opacity shadow-lg"
+        >
+          {showAnswers ? "Hide Answers" : "Show Answers"}
+        </button>
       </div>
     </div>
   );

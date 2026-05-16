@@ -2,7 +2,8 @@ export interface Question {
   id: number;
   question: string;
   options: string[];
-  correct: number;
+  correct: number | number[];
+  multiCorrect?: boolean;
 }
 
 export const ncpQuestions: Question[] = [
@@ -40,7 +41,8 @@ export const ncpQuestions: Question[] = [
       "Implement A/B testing frameworks comparing temperature, top-k, and top-p variations while measuring task-specific quality metrics and user satisfaction scores.",
       "Use production traffic directly for parameter experiments, enabling real-world insights and faster identification of impactful settings.",
     ],
-    correct: 0,
+    correct: [0, 2],
+    multiCorrect: true,
   },
   {
     id: 4,
@@ -83,7 +85,8 @@ export const ncpQuestions: Question[] = [
     question:
       "You're evaluating the performance of a tool-using agent. From the list below, what are two important features to evaluate? (Choose two.)",
     options: ["Tool use accuracy", "Tokens per second", "Tool use rate", "Task completion rate"],
-    correct: 0,
+    correct: [0, 2],
+    multiCorrect: true,
   },
   {
     id: 8,
@@ -131,7 +134,8 @@ export const ncpQuestions: Question[] = [
       "Identify where dividing the tasks into subtasks and handling them by multiple agents can help.",
       "Refine the prompt given to the AI Agent; be clear on objectives.",
     ],
-    correct: 2,
+    correct: [2, 3],
+    multiCorrect: true,
   },
   {
     id: 12,
@@ -144,7 +148,8 @@ export const ncpQuestions: Question[] = [
       "Containerized deployment with NIM (NVIDIA Inference Microservices)",
       "Kubernetes orchestration with Horizontal Pod Autoscaling (HPA)",
     ],
-    correct: 3,
+    correct: [3, 4],
+    multiCorrect: true,
   },
   {
     id: 13,
@@ -246,7 +251,8 @@ export const ncpQuestions: Question[] = [
       "Prompt chaining to accomplish state management",
       "Manual workflow coordination without automation",
     ],
-    correct: 0,
+    correct: [0, 1],
+    multiCorrect: true,
   },
   {
     id: 22,
@@ -365,7 +371,8 @@ export const ncpQuestions: Question[] = [
       "Implementing retry logic for API failures to ensure robustness in external communications.",
       "Preferring hardcoded responses for frequent queries.",
     ],
-    correct: 0,
+    correct: [0, 2],
+    multiCorrect: true,
   },
   {
     id: 32,
@@ -400,7 +407,8 @@ export const ncpQuestions: Question[] = [
       "Deploy each modality on separate Triton instances.",
       "Use a single model instance per GPU.",
     ],
-    correct: 0,
+    correct: [0, 1],
+    multiCorrect: true,
   },
   {
     id: 35,
@@ -515,7 +523,8 @@ export const ncpQuestions: Question[] = [
       "Incorporate user suggestions rapidly to maximize responsiveness and demonstrate continuous adaptation to evolving user needs.",
       "Implement feedback categorization systems grouping issues by type (accuracy, clarity, completeness) with quantitative impact scoring and improvement prioritization matrices.",
     ],
-    correct: 1,
+    correct: [1, 3],
+    multiCorrect: true,
   },
   {
     id: 45,
@@ -552,7 +561,8 @@ export const ncpQuestions: Question[] = [
       "Exempt the model from compliance if it improves outcomes.",
       "Obfuscate decision logic to protect proprietary methods.",
     ],
-    correct: 0,
+    correct: [0, 1],
+    multiCorrect: true,
   },
   {
     id: 48,
@@ -613,7 +623,8 @@ export const ncpQuestions: Question[] = [
       "Use production traffic directly for parameter experiments, enabling real-world insights and faster identification of impactful settings.",
       "Randomly adjust all parameters simultaneously, allowing for broader exploration of the parameter space in a shorter time frame.",
     ],
-    correct: 0,
+    correct: [0, 2],
+    multiCorrect: true,
   },
   {
     id: 53,
@@ -625,7 +636,8 @@ export const ncpQuestions: Question[] = [
       "Connect to external APIs with standard procedures and monitor request and response exchanges to isolate the analysis of integration reliability and effectiveness.",
       "Design integration tests simulating API version changes, schema modifications, and backward compatibility scenarios to ensure reliable tool connections across updates.",
     ],
-    correct: 0,
+    correct: [0, 3],
+    multiCorrect: true,
   },
   {
     id: 54,
@@ -644,7 +656,8 @@ export const ncpQuestions: Question[] = [
     question:
       "You're evaluating the performance of a tool-using agent (e.g., one that issues API calls or executes functions). From the list below, what are two important features to evaluate? (Choose two.)",
     options: ["Tool use accuracy", "Tokens per second", "Tool use rate", "Task completion rate"],
-    correct: 0,
+    correct: [0, 2],
+    multiCorrect: true,
   },
   {
     id: 56,
@@ -724,7 +737,8 @@ export const ncpQuestions: Question[] = [
       "Test under normal network conditions to establish baseline behavior, comparing results against production performance during degraded service scenarios.",
       "Conduct failure injection testing with varied error types (timeouts, rate limits, malformed responses) while monitoring recovery patterns and fallback behavior.",
     ],
-    correct: 0,
+    correct: [0, 4],
+    multiCorrect: true,
   },
   {
     id: 63,
@@ -737,7 +751,8 @@ export const ncpQuestions: Question[] = [
       "Implement sliding window analysis comparing context compression strategies, summarization quality, and information preservation rates across varying conversation lengths to identify optimization opportunities.",
       "Store all conversation history including all interactions, allowing adaptive-free observation of data to identify optimization opportunities.",
     ],
-    correct: 1,
+    correct: [1, 3],
+    multiCorrect: true,
   },
   {
     id: 64,
@@ -809,7 +824,8 @@ export const ncpQuestions: Question[] = [
       "Deploy each modality on separate Triton instances, allowing Triton to automatically manage ensemble coordination, shared memory usage, and pipeline integration.",
       "Use a single model instance per GPU, allowing Triton to automatically optimize concurrency, batching, and multi-instance settings for throughput scaling.",
     ],
-    correct: 0,
+    correct: [0, 1],
+    multiCorrect: true,
   },
   {
     id: 70,
