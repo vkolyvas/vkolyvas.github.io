@@ -38,10 +38,10 @@ export function LogoSimple() {
       </g>
 
       <g transform="translate(115, 0)">
-        <text x="0" y="58" style={{ fontFamily: "'Inter', 'Helvetica Neue', sans-serif", fontWeight: 700, fontSize: "32px", fill: "#1E293B", letterSpacing: "-0.5px" }}>
+        <text x="0" y="58" style={{ fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", fontWeight: 700, fontSize: "32px", fill: "#1E293B", letterSpacing: "-0.5px" }}>
           Vasileios Kolyvas
         </text>
-        <text x="2" y="86" style={{ fontFamily: "'Inter', 'Helvetica Neue', sans-serif", fontWeight: 500, fontSize: "13px", fill: "#64748B", letterSpacing: "4px", textTransform: "uppercase" }}>
+        <text x="2" y="86" style={{ fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", fontWeight: 500, fontSize: "13px", fill: "#64748B", letterSpacing: "4px", textTransform: "uppercase" }}>
           AI Solution Architect
         </text>
       </g>
