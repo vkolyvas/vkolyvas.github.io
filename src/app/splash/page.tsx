@@ -25,21 +25,21 @@ export default function Splash() {
   };
 
   return (
-    <div className="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center p-8">
-      <div className="max-w-2xl text-center mb-8">
-        <h1 className="text-3xl md:text-4xl font-medium text-white mb-8 leading-tight">
+    <div className="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center p-4">
+      <div className="max-w-xl text-center mb-4">
+        <h1 className="text-xl md:text-2xl font-medium text-white mb-4 leading-tight">
           AI Forward Deployed Engineer
         </h1>
-        <p className="text-2xl text-white/90 font-light tracking-wide mb-4">
-          Understand &nbsp;|&nbsp; Define &nbsp;|&nbsp; Design &nbsp;|&nbsp; Build &nbsp;|&nbsp; Deploy &nbsp;|&nbsp; Improve
+        <p className="text-sm text-white/90 font-light tracking-wide mb-3">
+          Understand | Define | Design | Build | Deploy | Improve
         </p>
         <img
           src="/FDE.svg"
           alt="FDE Cycle"
-          className="w-full max-w-xl mx-auto"
+          className="w-full max-w-md mx-auto"
         />
       </div>
-      <div className="w-full max-w-3xl">
+      <div className="w-full max-w-xl">
         <video
           src="/brain.mp4"
           autoPlay
@@ -51,7 +51,7 @@ export default function Splash() {
       </div>
       <button
         onClick={handleSkip}
-        className="absolute bottom-8 right-8 px-4 py-2 text-sm text-white/60 hover:text-white transition-colors"
+        className="absolute bottom-4 right-4 px-3 py-1.5 text-xs text-white/60 hover:text-white transition-colors"
       >
         Skip →
       </button>
