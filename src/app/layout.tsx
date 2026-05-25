@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Forward Deployed Engineer | vkolyvas",
+  title: "vkolyvas | AI FDE",
   description: "Personal developer portfolio showcasing production systems, software architecture, and technical depth.",
 };
 

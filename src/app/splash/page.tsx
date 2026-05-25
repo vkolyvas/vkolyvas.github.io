@@ -26,25 +26,18 @@ export default function Splash() {
 
   return (
     <div className="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center p-8">
-      <div className="max-w-2xl text-center mb-12">
-        <h1 className="text-3xl md:text-4xl font-medium text-white mb-6 leading-tight">
-          Forward Deployed Engineer
+      <div className="max-w-2xl text-center mb-8">
+        <h1 className="text-3xl md:text-4xl font-medium text-white mb-8 leading-tight">
+          AI Forward Deployed Engineer
         </h1>
-        <p className="text-lg text-white/70 leading-relaxed">
-          <span className="text-white/90 font-medium">System Integration:</span> Connecting new technologies (such as frontier AI models or analytics platforms) with a client&apos;s legacy infrastructure and security frameworks.
+        <p className="text-2xl text-white/90 font-light tracking-wide mb-4">
+          Understand &nbsp;|&nbsp; Define &nbsp;|&nbsp; Design &nbsp;|&nbsp; Build &nbsp;|&nbsp; Deploy &nbsp;|&nbsp; Improve
         </p>
-        <p className="text-lg text-white/70 leading-relaxed mt-3">
-          <span className="text-white/90 font-medium">Bespoke Development:</span> Writing custom code, APIs, and scripts to tailor the software to the client&apos;s specific daily workflows.
-        </p>
-        <p className="text-lg text-white/70 leading-relaxed mt-3">
-          <span className="text-white/90 font-medium">Feedback Loop Management:</span> Acting as the eyes and ears of the core product team. Identifying missing features or user friction in the field and relaying this data back to base to improve the overarching product.
-        </p>
-        <p className="text-lg text-white/70 leading-relaxed mt-3">
-          <span className="text-white/90 font-medium">Troubleshooting & Support:</span> Managing MLOps pipelines, configuring cloud environments (e.g., AWS, Azure), and fixing system bugs directly at the client site.
-        </p>
-        <p className="text-sm text-white/50 mt-6">
-          Proficiency in Python, AWS, Azure, Kubernetes, and database/vector management.
-        </p>
+        <img
+          src="/FDE.svg"
+          alt="FDE Cycle"
+          className="w-full max-w-xl mx-auto"
+        />
       </div>
       <div className="w-full max-w-3xl">
         <video
