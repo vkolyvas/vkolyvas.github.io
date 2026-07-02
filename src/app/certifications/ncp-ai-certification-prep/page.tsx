@@ -7,24 +7,71 @@ import { useState } from "react";
 
 // ─── Cheat Sheet Data ───────────────────────────────────────────────────────
 
-const cheatsheetData = [
+type Section =
+  | { type: "text"; title: string; content: string }
+  | { type: "table"; title: string; headers: string[]; rows: string[][] }
+  | { type: "code"; title: string; language: string; content: string };
+
+type CheatSheetDomain = {
+  domain: string;
+  sections: Section[];
+};
+
+const cheatsheetData: CheatSheetDomain[] = [
   {
     domain: "Domain 1: Agent Architecture and Design (15%)",
     sections: [
       {
+        type: "table",
         title: "Agent Architecture Patterns",
-        content: `• ReAct — interleaves reasoning + actions. Dynamic tasks with tools. Risk: loops, higher latency.
-• Plan-and-Execute — plans full sequence first, then executes. Well-defined multi-step. Risk: brittle on plan changes.
-• Reflexion — executes, self-evaluates, retries. Accuracy-critical. 2-3x more LLM calls.
-• LATS — Monte Carlo Tree Search for planning. Best accuracy, highest compute.
-• Tool-Only — direct tool routing, minimal reasoning. Simple dispatch.`,
+        headers: ["Pattern", "How It Works", "Best For", "Trade-offs"],
+        rows: [
+          ["ReAct", "Interleaved Reasoning + Action loops", "Dynamic tasks with tools", "Flexible but can loop; higher latency"],
+          ["Plan-and-Execute", "Create full plan → execute steps", "Well-defined multi-step tasks", "Efficient but brittle to plan changes"],
+          ["Reflexion", "Execute → Self-evaluate → Retry", "Accuracy-critical tasks", "Higher accuracy but 2-3x more LLM calls"],
+          ["LATS", "Monte Carlo Tree Search for planning", "Complex optimization tasks", "Best accuracy, highest compute cost"],
+          ["Tool-Only", "Direct tool routing, minimal reasoning", "Simple tool dispatch", "Fast but limited reasoning capability"],
+        ],
       },
       {
+        type: "text",
+        title: "When to Use Which",
+        content: `Task is dynamic with unknown steps? → ReAct
+Task is well-defined and sequential? → Plan-and-Execute
+Accuracy is critical, latency flexible? → Reflexion
+Multiple valid solution paths exist? → LATS
+Simple tool routing, no reasoning? → Tool-Only`,
+      },
+      {
+        type: "table",
         title: "Single-Agent vs Multi-Agent",
-        content: `• Single: ≤5 tools, linear tasks. Lower latency, easier debug.
-• Multi: distinct sub-domains, parallel execution. Better scalability, coordination overhead.
-• Patterns: Sequential pipeline (A→B→C), parallel fan-out/merge, hierarchical (Orchestrator→Workers), collaborative negotiation.
-• A2A Protocol: cross-platform interoperability between frameworks.`,
+        headers: ["Factor", "Single Agent", "Multi-Agent"],
+        rows: [
+          ["Use when", "Task is linear, <5 tools", "Task has distinct sub-domains"],
+          ["Complexity", "Low", "High (coordination overhead)"],
+          ["Latency", "Lower", "Higher (message passing)"],
+          ["Scalability", "Limited", "Better (parallel execution)"],
+          ["Debugging", "Easier", "Harder (distributed state)"],
+        ],
+      },
+      {
+        type: "text",
+        title: "Multi-Agent Orchestration Patterns",
+        content: `Sequential:    Agent A → Agent B → Agent C  (pipeline)
+Parallel:      Agent A ↗ Agent B ↗ Agent C  (fan-out, merge)
+Hierarchical: Orchestrator → [Worker A, Worker B, Worker C]
+Collaborative: Agents negotiate and share state`,
+      },
+      {
+        type: "table",
+        title: "Agent Communication Protocols",
+        headers: ["Protocol", "Pattern", "Use Case"],
+        rows: [
+          ["Direct messaging", "Agent-to-agent", "Small teams, low latency"],
+          ["Publish-subscribe", "Event-driven", "Loose coupling, scalability"],
+          ["Shared state", "Blackboard pattern", "Collaborative problem-solving"],
+          ["A2A Protocol", "Cross-platform", "Interoperability between frameworks"],
+        ],
       },
     ],
   },
@@ -32,25 +79,84 @@ const cheatsheetData = [
     domain: "Domain 2: Agent Development (15%)",
     sections: [
       {
-        title: "Tool/Function Calling",
-        content: `• OpenAI-compatible: tools array with type "function", name, description, parameters schema.
-• Always validate tool parameters before execution.
-• Safe tool calls: error handling catches ToolError, returns fallback responses.`,
+        type: "code",
+        title: "OpenAI-Compatible Function Calling",
+        language: "python",
+        content: `tools = [{
+    "type": "function",
+    "function": {
+        "name": "search_database",
+        "description": "Search product database by query",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {"type": "string", "description": "Search query"},
+                "limit": {"type": "integer", "default": 5}
+            },
+            "required": ["query"]
+        }
+    }
+}]
+
+# Always validate tool parameters before execution
+def safe_tool_call(tool_name, params):
+    validated = validate_params(tool_name, params)
+    try:
+        result = execute_tool(tool_name, validated)
+        return result
+    except ToolError as e:
+        return fallback_response(tool_name, e)`,
       },
       {
+        type: "table",
         title: "Error Handling Patterns",
-        content: `• Retry with backoff — exponential (1s→2s→4s→8s), max 3 retries. Transient failures (API timeouts).
-• Circuit breaker — opens after 3 failures, half-open after 30s.
-• Fallback strategies — switch to alternative tools.
-• Graceful degradation — continue with partial info when non-critical tools fail.`,
+        headers: ["Pattern", "When to Use", "Implementation"],
+        rows: [
+          ["Retry with backoff", "Transient failures (API timeouts)", "Exponential: 1s → 2s → 4s → 8s, max 3 retries"],
+          ["Circuit breaker", "Repeated failures from same tool", "Open after 3 failures, half-open after 30s"],
+          ["Fallback", "Primary tool unavailable", "Switch to alternative tool or graceful message"],
+          ["Graceful degradation", "Non-critical tool failure", "Continue with partial information"],
+        ],
       },
       {
-        title: "Framework Comparison",
-        content: `• LangChain — largest ecosystem, LangGraph for multi-agent.
-• LlamaIndex — best RAG integration for RAG-heavy agents.
-• AutoGen — native conversational agent teams.
-• CrewAI — role-based teams (role, goal, backstory).
-• LangGraph — graph-based stateful workflow orchestration.`,
+        type: "code",
+        title: "Circuit Breaker Pattern",
+        language: "python",
+        content: `class CircuitBreaker:
+    def __init__(self, failure_threshold=3, reset_timeout=30):
+        self.failures = 0
+        self.threshold = failure_threshold
+        self.state = "closed"
+
+    def call(self, func, *args):
+        if self.state == "open":
+            if time_since_open > self.reset_timeout:
+                self.state = "half-open"
+            else:
+                return fallback()
+
+        try:
+            result = func(*args)
+            self.failures = 0
+            self.state = "closed"
+            return result
+        except Exception:
+            self.failures += 1
+            if self.failures >= self.threshold:
+                self.state = "open"
+            raise`,
+      },
+      {
+        type: "table",
+        title: "Agent Frameworks Comparison",
+        headers: ["Framework", "Best For", "Multi-Agent", "Key Feature"],
+        rows: [
+          ["LangChain", "General agents", "Via LangGraph", "Largest ecosystem, most tools"],
+          ["LlamaIndex", "RAG-heavy agents", "Limited", "Best RAG integration"],
+          ["AutoGen", "Multi-agent chat", "Native", "Conversational agent teams"],
+          ["CrewAI", "Role-based teams", "Native", "Role + goal + backstory agents"],
+          ["LangGraph", "Stateful workflows", "Native", "Graph-based agent orchestration"],
+        ],
       },
     ],
   },
@@ -58,20 +164,39 @@ const cheatsheetData = [
     domain: "Domain 3: Evaluation and Tuning (13%)",
     sections: [
       {
-        title: "Key Agent Evaluation Metrics",
-        content: `• Task completion rate: >85% for production
-• Reasoning accuracy: >90% for critical tasks
-• End-to-end latency: <5s interactive, <30s async
-• Tool selection accuracy: >90%
-• Hallucination rate: <5% with RAG
-• User satisfaction: >4.0/5.0`,
+        type: "table",
+        title: "Agent Evaluation Metrics",
+        headers: ["Metric", "What It Measures", "Target Range"],
+        rows: [
+          ["Task completion rate", "% of tasks fully completed", ">85% for production"],
+          ["Reasoning accuracy", "Correctness of intermediate steps", ">90% for critical tasks"],
+          ["End-to-end latency", "Total time from input to output", "<5s interactive, <30s async"],
+          ["Cost per interaction", "Total LLM + tool API costs", "Monitor trend, set budget alerts"],
+          ["Tool selection accuracy", "% of correct tool choices", ">90%"],
+          ["Hallucination rate", "% of unsupported claims", "<5% with RAG"],
+          ["User satisfaction (CSAT)", "User-reported quality", ">4.0/5.0"],
+        ],
       },
       {
+        type: "text",
+        title: "A/B Testing for Agents",
+        content: `1. Define hypothesis: "ReAct with CoT outperforms vanilla ReAct"
+2. Split traffic: 50/50 random assignment
+3. Measure: Task completion, latency, cost, user satisfaction
+4. Duration: Minimum 1000 interactions per variant
+5. Statistical significance: p < 0.05
+6. Decision: Roll out winner, document learnings`,
+      },
+      {
+        type: "table",
         title: "Fine-Tuning Decision Guide",
-        content: `• LoRA fine-tuning — domain vocabulary adaptation
-• Prompt engineering first — for inconsistent formatting (cheaper + faster)
-• Fine-tune on tool-use datasets — when tool selection is poor
-• Upgrade base model — when general quality is low (fine-tuning cannot fix weak foundations)`,
+        headers: ["Scenario", "Approach", "Why"],
+        rows: [
+          ["Agent needs domain vocabulary", "LoRA fine-tune", "Adapts to terminology without full retrain"],
+          ["Agent formatting is inconsistent", "Prompt engineering first", "Cheaper, faster iteration"],
+          ["Tool selection is poor", "Fine-tune on tool-use dataset", "Improves function calling accuracy"],
+          ["General quality is low", "Upgrade base model", "Fine-tuning can't fix weak foundations"],
+        ],
       },
     ],
   },
@@ -79,25 +204,53 @@ const cheatsheetData = [
     domain: "Domain 4: Deployment and Scaling (13%)",
     sections: [
       {
-        title: "Containerized Deployment",
-        content: `• GPU reservations via docker-compose
-• Multiple replicas for HA
-• Environment: MODEL_ENDPOINT, VECTOR_DB_URL
-• NVIDIA NIM containers with proper GPU device capabilities`,
+        type: "code",
+        title: "Containerized Agent Deployment",
+        language: "yaml",
+        content: `services:
+  agent-api:
+    image: agent-service:latest
+    deploy:
+      replicas: 3
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    environment:
+      - MODEL_ENDPOINT=http://nim-server:8000
+      - VECTOR_DB_URL=http://chromadb:8000
+
+  nim-server:
+    image: nvcr.io/nim/meta/llama-3-8b-instruct:latest
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    ports:
+      - "8000:8000"`,
       },
       {
+        type: "table",
         title: "Scaling Strategies",
-        content: `• Horizontal — add agent replicas behind load balancers
-• Vertical — upgrade GPUs (A100→H100)
-• Auto-scaling — on queue depth or latency metrics
-• GPU sharing — Triton multi-model serving for multiple small models`,
+        headers: ["Strategy", "When to Use", "Implementation"],
+        rows: [
+          ["Horizontal", "More concurrent users", "Add agent replicas behind load balancer"],
+          ["Vertical", "Larger models, more memory", "Upgrade GPU (A100 → H100)"],
+          ["Auto-scaling", "Variable load patterns", "Scale on queue depth or latency metrics"],
+          ["GPU sharing", "Multiple small models", "Triton multi-model serving"],
+        ],
       },
       {
-        title: "Deployment Strategy Risk",
-        content: `• Blue/Green — low risk, instant rollback (major updates)
-• Canary — very low risk, fast rollback (gradual rollouts)
-• Rolling — medium risk, slow rollback (minor updates)
-• Shadow — no risk, parallel with production`,
+        type: "table",
+        title: "Deployment Strategies",
+        headers: ["Strategy", "Risk", "Rollback", "Use When"],
+        rows: [
+          ["Blue/Green", "Low", "Instant switch", "Major agent updates, new models"],
+          ["Canary", "Very Low", "Fast", "Gradual rollout, measure impact"],
+          ["Rolling", "Medium", "Slow", "Minor updates, stateless services"],
+          ["Shadow", "None", "N/A", "Testing new agent in parallel"],
+        ],
       },
     ],
   },
@@ -105,28 +258,50 @@ const cheatsheetData = [
     domain: "Domain 5: Cognition, Planning, and Memory (10%)",
     sections: [
       {
+        type: "table",
         title: "Reasoning Frameworks",
-        content: `• Chain-of-Thought — step-by-step linear. Math/linear problems. 1.5-2x latency.
-• Tree-of-Thought — branching exploration. Creative/strategic. 3-5x latency.
-• ReAct — thought-action-observation loops. Tool-using agents. 2-3x latency.
-• MCTS — Monte Carlo search over plans. Optimization. 5-10x latency.
-• Self-Consistency — multiple CoT paths + majority voting. High-stakes.`,
+        headers: ["Framework", "Mechanism", "Best For", "Latency"],
+        rows: [
+          ["Chain-of-Thought (CoT)", "Step-by-step reasoning", "Linear problems, math", "1.5-2x base"],
+          ["Tree-of-Thoughts (ToT)", "Branching exploration", "Creative/strategic tasks", "3-5x base"],
+          ["ReAct Reasoning", "Thought → Action → Observation", "Tool-using agents", "2-3x base"],
+          ["MCTS", "Monte Carlo search over plans", "Optimization problems", "5-10x base"],
+          ["Self-Consistency", "Multiple CoT, majority vote", "High-stakes decisions", "3-5x base"],
+        ],
       },
       {
-        title: "Memory Systems Architecture",
-        content: `• Short-term — context window for current session
-• Long-term — vector DBs persistently for user prefs + past interactions
-• Episodic — specific past events/outcomes in key-value stores
-• Semantic — factual knowledge/relationships in knowledge graphs
-• Working memory — scratchpad for intermediate reasoning steps`,
+        type: "text",
+        title: "Reasoning Flow Comparison",
+        content: `CoT:  Think → Think → Think → Answer (linear)
+ToT:  Think → Branch → Evaluate → Select → Think (tree)
+ReAct: Think → Act → Observe → Think → Act (loop)
+MCTS: Simulate → Evaluate → Backprop → Select (search)`,
       },
       {
+        type: "table",
+        title: "Memory Systems",
+        headers: ["Memory Type", "Storage", "Duration", "Use Case"],
+        rows: [
+          ["Short-term", "Context window", "Current session", "Active conversation"],
+          ["Long-term", "Vector database", "Persistent", "User preferences, past interactions"],
+          ["Episodic", "Key-value store", "Persistent", "Specific past events and outcomes"],
+          ["Semantic", "Knowledge graph", "Persistent", "Factual knowledge, relationships"],
+          ["Working", "Scratchpad", "Current task", "Intermediate reasoning steps"],
+        ],
+      },
+      {
+        type: "text",
         title: "Context Window Budget (8192 tokens)",
-        content: `• System prompts: ~500 tokens (6%)
-• Retrieved docs: ~3000 tokens (37%)
-• Conversation history: ~2000 tokens (24%)
-• Working memory: ~1000 tokens (12%)
-• Output reserved: ~1692 tokens (21%)`,
+        content: `system_prompt = 500     # ~6% - Agent instructions
+retrieved_docs = 3000   # ~37% - RAG context
+conversation = 2000     # ~24% - Chat history
+working_memory = 1000   # ~12% - Scratchpad
+output_reserve = 1692   # ~21% - Generation space
+
+# Compression when exceeding budget:
+# 1. Summarize older conversation turns
+# 2. Reduce retrieved docs (top-3 → top-2)
+# 3. Compress working memory`,
       },
     ],
   },
@@ -134,31 +309,58 @@ const cheatsheetData = [
     domain: "Domain 6: Knowledge Integration and Data Handling (10%)",
     sections: [
       {
+        type: "text",
         title: "RAG Pipeline",
-        content: `Index: Chunk → Embed → Store in Vector DB
-Query: Query → Embed → Search → Retrieve Top-K → Rerank → Augment → LLM → Response`,
+        content: `Documents → Chunk → Embed → Store (Vector DB)
+Query → Embed → Search → Retrieve Top-K → Rerank → Augment Prompt → LLM → Response`,
       },
       {
+        type: "table",
         title: "Chunking Strategies",
-        content: `• Fixed-size (512 tokens, 10-15% overlap) — general purpose, speed
-• Semantic chunking — variable at topic breaks, mixed topics
-• Recursive (512-1024 tokens, 15-20% overlap) — structured docs (markdown, code)
-• Document-level — full docs for short docs/FAQs
-• Smaller chunks = more precision, less context`,
+        headers: ["Strategy", "Chunk Size", "Overlap", "Best For"],
+        rows: [
+          ["Fixed-size", "512 tokens", "10-15%", "General purpose, fast"],
+          ["Semantic", "Variable", "At topic breaks", "Long documents, mixed topics"],
+          ["Recursive", "512-1024", "15-20%", "Structured docs (markdown, code)"],
+          ["Document-level", "Full doc", "N/A", "Short documents, FAQs"],
+        ],
       },
       {
+        type: "table",
         title: "Vector Database Comparison",
-        content: `• ChromaDB — self-hosted, small-medium, prototyping
-• Pinecone — managed cloud, enterprise scale, zero-ops
-• Weaviate — both hosting, hybrid search, GraphQL
-• FAISS — in-memory, large-scale, read-heavy, speed-critical
-• Qdrant — both hosting, filtering + vector search`,
+        headers: ["Database", "Hosting", "Scalability", "Best For"],
+        rows: [
+          ["ChromaDB", "Self-hosted", "Small-medium", "Prototyping, local dev"],
+          ["Pinecone", "Managed cloud", "Enterprise", "Production, zero-ops"],
+          ["Weaviate", "Both", "Large", "Hybrid search, GraphQL"],
+          ["FAISS", "In-memory", "Large", "Speed-critical, read-heavy"],
+          ["Qdrant", "Both", "Large", "Filtering + vector search"],
+        ],
       },
       {
-        title: "Retrieval Optimization",
-        content: `• Hybrid search: BM25 (0.3 weight) + semantic vector (0.7 weight)
-• Reranking: cross-encoders (ms-marco-MiniLM-L-6-v2)
-• Pipeline: retrieve 20 → rerank → return top 3-5`,
+        type: "code",
+        title: "Hybrid Search + Reranking",
+        language: "python",
+        content: `# Hybrid search: BM25 (keyword) + Semantic (vector)
+ensemble = EnsembleRetriever(
+    retrievers=[bm25_retriever, vector_retriever],
+    weights=[0.3, 0.7]  # Weight semantic higher
+)
+
+# Pipeline: Retrieve 20 → Rerank → Return top 3-5
+candidates = ensemble.get_relevant_documents(query, k=20)
+reranked = reranker.rank(query, [doc.page_content for doc in candidates])
+final_docs = reranked[:5]`,
+      },
+      {
+        type: "table",
+        title: "Similarity Metrics",
+        headers: ["Metric", "Formula", "When to Use"],
+        rows: [
+          ["Cosine similarity", "A·B / (||A|| × ||B||)", "Default for embeddings"],
+          ["Dot product", "A·B", "Normalized vectors (faster)"],
+          ["Euclidean (L2)", "√Σ(a-b)²", "Absolute distance matters"],
+        ],
       },
     ],
   },
@@ -166,32 +368,83 @@ Query: Query → Embed → Search → Retrieve Top-K → Rerank → Augment → 
     domain: "Domain 7: NVIDIA Platform Implementation (7%)",
     sections: [
       {
-        title: "NVIDIA NIM",
-        content: `• Deploy optimized LLM inference via docker NIM containers
-• TensorRT-LLM optimizations: 3-5x speedup
+        type: "code",
+        title: "NVIDIA NIM Deployment",
+        language: "bash",
+        content: `docker run -it --gpus all \\
+  -e NGC_API_KEY=$NGC_API_KEY \\
+  -p 8000:8000 \\
+  nvcr.io/nim/meta/llama-3.1-8b-instruct:latest
+
+curl -X POST http://localhost:8000/v1/chat/completions \\
+  -H "Content-Type: application/json" \\
+  -d '{"model": "meta/llama-3.1-8b-instruct",
+       "messages": [{"role": "user", "content": "Hello"}],
+       "max_tokens": 100}'`,
+      },
+      {
+        type: "text",
+        title: "NIM Key Features",
+        content: `• TensorRT-LLM optimizations (3-5x speedup)
 • Multi-GPU support with tensor parallelism
-• OpenAI API compatibility, built-in health checks + metrics`,
+• OpenAI API compatibility
+• Built-in health checks and metrics`,
       },
       {
-        title: "Triton Inference Server",
-        content: `• Dynamic batching: preferred batch sizes 4 and 8, max queue delay 100μs
-• Instance groups configuration
-• Multi-model serving: embedding + LLM + reranker
-• Model ensembles: chain retriever to LLM`,
+        type: "code",
+        title: "Triton Inference Server Config",
+        language: "yaml",
+        content: `name: "agent-llm"
+platform: "tensorrt_llm"
+max_batch_size: 8
+
+dynamic_batching {
+  preferred_batch_size: [4, 8]
+  max_queue_delay_microseconds: 100
+}
+
+instance_group [
+  { count: 1, kind: KIND_GPU }
+]`,
       },
       {
-        title: "NeMo Guardrails",
-        content: `• Canonical message definitions — block off-topic, return to domain
-• Human approval flows — high-stakes actions (financial transactions)`,
+        type: "text",
+        title: "Triton Use Cases",
+        content: `• Multi-model serving (host embedding + LLM + reranker)
+• Dynamic batching (combine requests for efficiency)
+• Model ensembles (chain retriever → LLM)`,
       },
       {
-        title: "Platform Quick Ref",
-        content: `• NIM — model deployment, optimized inference containers
-• Triton — model serving, multi-model + dynamic batching
-• NeMo — model development, training, fine-tuning, RLHF
-• NeMo Guardrails — agent safety, content filtering, topic control
-• TensorRT-LLM — optimization, quantization, kernel fusion
-• NGC — container registry for pre-built AI containers`,
+        type: "code",
+        title: "NeMo Guardrails Example",
+        language: "ruby",
+        content: `# Prevent off-topic conversations
+define user ask off topic
+  "What's the weather?"
+  "Tell me a joke"
+
+define flow off topic
+  user ask off topic
+  bot refuse off topic
+  "I'm focused on helping with [your domain]."
+
+# Require human approval for high-stakes actions
+define flow high stakes action
+  user request financial transaction
+  bot confirm with human`,
+      },
+      {
+        type: "table",
+        title: "NVIDIA Platform Quick Reference",
+        headers: ["Tool", "Purpose", "Key Use"],
+        rows: [
+          ["NIM", "Model deployment", "Optimized inference containers"],
+          ["Triton", "Model serving", "Multi-model, dynamic batching"],
+          ["NeMo", "Model development", "Training, fine-tuning, RLHF"],
+          ["NeMo Guardrails", "Agent safety", "Content filtering, topic control"],
+          ["TensorRT-LLM", "Optimization", "Quantization, kernel fusion"],
+          ["NGC", "Container registry", "Pre-built AI containers"],
+        ],
       },
     ],
   },
@@ -199,25 +452,31 @@ Query: Query → Embed → Search → Retrieve Top-K → Rerank → Augment → 
     domain: "Domain 8: Run, Monitor, and Maintain (5%)",
     sections: [
       {
-        title: "Production Monitoring Metrics",
-        content: `• Latency: P50, P95, P99 (alert P95 > 2x baseline)
-• Task completion success rate (alert <80% over 1hr)
-• Error rate (alert >5% over 15min)
-• Token usage per interaction (alert >2x average)
-• Cost per interaction vs budget
-• Model drift — quality score declining over 3+ days`,
+        type: "table",
+        title: "Production Monitoring",
+        headers: ["What to Monitor", "Metric", "Alert Threshold"],
+        rows: [
+          ["Latency", "P50, P95, P99", "P95 > 2x baseline"],
+          ["Task completion", "Success rate", "< 80% over 1 hour"],
+          ["Error rate", "Errors/total", "> 5% over 15 min"],
+          ["Token usage", "Tokens/interaction", "> 2x average"],
+          ["Cost", "$/interaction", "> budget threshold"],
+          ["Model drift", "Quality score trend", "Declining 3+ days"],
+        ],
       },
       {
-        title: "Distributed Tracing Tools",
-        content: `OpenTelemetry, LangSmith, Datadog, Grafana
-Example trace:
-  Agent Orchestrator (50ms)
-  → Retrieve from Vector DB (120ms)
-  → LLM Reasoning Step 1 (800ms)
-  → Tool Call search_api (350ms)
-  → LLM Reasoning Step 2 (750ms)
-  → Format Response (30ms)
-  Total: 2100ms`,
+        type: "text",
+        title: "Distributed Tracing",
+        content: `Trace: user_query_123
+├── Agent Orchestrator (50ms)
+│   ├── Retrieve from Vector DB (120ms)
+│   ├── LLM Reasoning Step 1 (800ms)
+│   ├── Tool Call: search_api (350ms)
+│   ├── LLM Reasoning Step 2 (750ms)
+│   └── Format Response (30ms)
+└── Total: 2100ms
+
+Tools: OpenTelemetry, LangSmith, Datadog, Grafana`,
       },
     ],
   },
@@ -225,19 +484,27 @@ Example trace:
     domain: "Domain 9: Safety, Ethics, and Compliance (5%)",
     sections: [
       {
+        type: "table",
         title: "Agent Safety Guardrails",
-        content: `• Input filtering — regex + classifiers block prompt injection
-• Output filtering — content classifiers prevent harmful outputs
-• Action constraints — allowlists of tools limit capabilities
-• Rate limiting — token/request budgets prevent runaway costs
-• Sandbox execution — isolated environments for code/API execution
-• Audit logging — immutable logs for compliance + debugging`,
+        headers: ["Guardrail", "Implementation", "Purpose"],
+        rows: [
+          ["Input filtering", "Regex + classifier", "Block prompt injection"],
+          ["Output filtering", "Content classifier", "Prevent harmful outputs"],
+          ["Action constraints", "Allowlist of tools", "Limit agent capabilities"],
+          ["Rate limiting", "Token/request budgets", "Prevent runaway costs"],
+          ["Sandbox execution", "Isolated environments", "Safe code/API execution"],
+          ["Audit logging", "Immutable logs", "Compliance and debugging"],
+        ],
       },
       {
-        title: "Compliance Quick Ref",
-        content: `• GDPR — data minimization, right to erasure, consent, right to explanation
-• CCPA — disclosure of data usage, opt-out of data sale
-• EU AI Act — risk classification, transparency, human oversight for high-risk systems`,
+        type: "table",
+        title: "Compliance Quick Reference",
+        headers: ["Regulation", "Key Requirements for Agents"],
+        rows: [
+          ["GDPR", "Data minimization, right to erasure, consent, right to explanation"],
+          ["CCPA", "Disclosure of data usage, opt-out of data sale"],
+          ["EU AI Act", "Risk classification, transparency, human oversight for high-risk"],
+        ],
       },
     ],
   },
@@ -245,18 +512,35 @@ Example trace:
     domain: "Domain 10: Human-AI Interaction and Oversight (5%)",
     sections: [
       {
+        type: "code",
         title: "HITL Escalation Framework",
-        content: `• Confidence <0.7 → low_confidence → queue for async review
-• Financial transactions → high_stakes → immediate real-time human handoff
-• User frustration detected → user_sentiment → offer human option`,
+        language: "python",
+        content: `def should_escalate(agent_response):
+    if agent_response.confidence < 0.7:
+        return "low_confidence"
+    if agent_response.involves_financial_action:
+        return "high_stakes"
+    if agent_response.sentiment == "frustrated":
+        return "user_sentiment"
+    return None
+
+ESCALATION_TIERS = {
+    "low_confidence": "queue_for_review",
+    "high_stakes": "immediate_handoff",
+    "user_sentiment": "offer_human_option",
+}`,
       },
       {
+        type: "table",
         title: "Transparency Best Practices",
-        content: `• Show source attribution for RAG-retrieved documents
-• Display confidence levels to users
-• Explain why specific actions were chosen
-• State what the agent cannot do
-• Always provide escalation path to humans`,
+        headers: ["Practice", "Implementation"],
+        rows: [
+          ["Source attribution", "Show which documents RAG retrieved"],
+          ["Confidence display", "Show certainty level to user"],
+          ["Decision explanation", "Explain why agent chose specific action"],
+          ["Limitation disclosure", "State what agent cannot do"],
+          ["Human option", "Always provide escalation path"],
+        ],
       },
     ],
   },
@@ -264,26 +548,52 @@ Example trace:
     domain: "Exam Strategy",
     sections: [
       {
+        type: "text",
         title: "Time Management",
-        content: `• 60-70 questions in 120 minutes → ~1.7-2 min/question
+        content: `• 60-70 questions in 120 minutes = ~1.7-2 min per question
 • Flag uncertain questions, return at end
-• Finish with 10-minute buffer for review`,
+• Aim to finish with 10-minute buffer for review`,
       },
       {
+        type: "text",
         title: "Domain Weight Summary",
-        content: `• Architecture + Development = 30% (~21 questions) — FOCUS HERE
-• Evaluation + Deployment = 26% (~18 questions)
-• Cognition + Knowledge = 20% (~14 questions)
-• Monitor + Safety + Human-AI = 15% (~11 questions) — easiest points
-• NVIDIA Platform = 7% (~5 questions) — small but specific`,
+        content: `Architecture + Development:  30%  (~21 questions) ← FOCUS HERE
+Evaluation + Deployment:     26%  (~18 questions)
+Cognition + Knowledge:       20%  (~14 questions)
+Monitor + Safety + Human-AI: 15%  (~11 questions) ← Easiest points
+NVIDIA Platform:              7%  (~5 questions)  ← Small but specific`,
       },
       {
+        type: "text",
         title: "Common Wrong Answer Patterns",
-        content: `✗ More agents = better — multi-agent adds overhead, only when decomposition justifies
-✗ Larger chunks = better RAG — precision-recall trade-off
-✗ ReAct always best — Plan-and-Execute better for well-defined sequential tasks
-✗ Fine-tune first — try prompt engineering first, only fine-tune when prompting fails
-✗ Autonomous always better — HITL preferred for high-stakes decisions`,
+        content: `✗ "More agents = better performance"
+  → Multi-agent adds coordination overhead; use only when decomposition justifies it
+
+✗ "Larger chunks = better RAG"
+  → Chunk size is precision-recall trade-off; smaller = more precise, larger = more context
+
+✗ "ReAct is always best"
+  → Plan-and-Execute better for well-defined sequential tasks
+
+✗ "Fine-tune first"
+  → Try prompt engineering first; fine-tune only when prompting fails
+
+✗ "Autonomous is always better"
+  → HITL escalation preferred for high-stakes decisions`,
+      },
+      {
+        type: "text",
+        title: "Domain Coverage Checklist",
+        content: `□ Agent Architecture (15%): Patterns, single vs multi-agent, orchestration
+□ Agent Development (15%): Tool calling, error handling, frameworks
+□ Evaluation & Tuning (13%): Metrics, A/B testing, fine-tuning decisions
+□ Deployment & Scaling (13%): Containers, Kubernetes, scaling strategies
+□ Cognition & Memory (10%): Reasoning frameworks, memory types, context management
+□ Knowledge Integration (10%): RAG, chunking, vector DBs, hybrid search
+□ NVIDIA Platform (7%): NIM, Triton, NeMo Guardrails, TensorRT-LLM
+□ Run & Monitor (5%): Observability, tracing, alerting, drift detection
+□ Safety & Ethics (5%): Guardrails, compliance (GDPR, AI Act), red-teaming
+□ Human-AI Interaction (5%): HITL, confidence thresholds, transparency`,
       },
     ],
   },
@@ -403,9 +713,47 @@ export default function NcpCertificationPrep() {
                         <h3 className="text-sm font-medium mb-1.5 text-[var(--muted)] uppercase tracking-wide">
                           {section.title}
                         </h3>
-                        <pre className="text-sm whitespace-pre-wrap font-mono leading-relaxed text-[var(--foreground)] bg-[var(--card)] p-3 rounded-lg border border-[var(--border)]">
-                          {section.content}
-                        </pre>
+                        {section.type === "table" && (
+                          <div className="overflow-x-auto rounded-lg border border-[var(--border)]">
+                            <table className="w-full text-sm">
+                              <thead>
+                                <tr className="border-b border-[var(--border)] bg-[var(--card)]">
+                                  {section.headers.map((h, i) => (
+                                    <th key={i} className="px-3 py-2 text-left font-medium text-[var(--foreground)]">
+                                      {h}
+                                    </th>
+                                  ))}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {section.rows.map((row, ri) => (
+                                  <tr key={ri} className={`${ri % 2 === 0 ? "bg-[var(--card)]" : ""}`}>
+                                    {row.map((cell, ci) => (
+                                      <td key={ci} className="px-3 py-2 text-[var(--foreground)]">
+                                        {cell}
+                                      </td>
+                                    ))}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        )}
+                        {section.type === "code" && (
+                          <div className="rounded-lg border border-[var(--border)] overflow-hidden">
+                            <div className="bg-[var(--card)] px-3 py-1.5 text-xs text-[var(--muted)] border-b border-[var(--border)]">
+                              {section.language}
+                            </div>
+                            <pre className="text-sm whitespace-pre-wrap font-mono leading-relaxed text-[var(--foreground)] bg-[var(--background)] p-3 overflow-x-auto">
+                              {section.content}
+                            </pre>
+                          </div>
+                        )}
+                        {section.type === "text" && (
+                          <pre className="text-sm whitespace-pre-wrap font-mono leading-relaxed text-[var(--foreground)] bg-[var(--card)] p-3 rounded-lg border border-[var(--border)]">
+                            {section.content}
+                          </pre>
+                        )}
                       </div>
                     ))}
                   </div>
