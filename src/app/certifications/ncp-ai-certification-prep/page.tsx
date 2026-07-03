@@ -640,7 +640,7 @@ export default function NcpCertificationPrep() {
 
           <p className="text-[var(--muted)] mb-8">
             {view === "questions"
-              ? "94 practice questions for the NVIDIA-Certified Professional Agentic AI exam."
+              ? "92 practice questions for the NVIDIA-Certified Professional Agentic AI exam."
               : "Comprehensive exam reference based on preporato.com (2026 edition)."}
           </p>
         </motion.div>
