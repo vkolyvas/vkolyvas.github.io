@@ -1009,4 +1009,101 @@ export const ncpQuestions: Question[] = [
     correct: [0, 3],
     multiCorrect: true,
   },
+  {
+    id: 85,
+    question:
+      "A healthcare AI company is deploying diagnostic agents that process medical imaging and patient data. The system must deliver consistent sub-100ms inference times for critical diagnoses while supporting deployment across multiple hospital sites with different NVIDIA GPU configurations (from RTX 6000 workstations to DGX systems). The agents need to maintain high accuracy while being portable across different hardware environments and capable of running efficiently on various GPU memory configurations. Which optimization strategy would deliver the BEST performance improvements while maintaining deployment flexibility across diverse NVIDIA hardware configurations?",
+    options: [
+      "Deploy agents with NVIDIA CUDA-optimized Docker containers using a sequential inference architecture that processes each layer individually with GPU-to-CPU memory transfers between operations to avoid memory issues.",
+      "Deploy agents using NVIDIA NIM containers with CPU-optimized inference to avoid GPU memory constraints and ensure consistent performance across different hospital infrastructure configurations.",
+      "Deploy models using NVIDIA TensorRT optimization in their original FP32 precision format without any quantization or memory optimization, requiring 32GB+ GPU memory across all deployment sites.",
+      "Deploy agents using model optimizations with post-training quantization with NVIDIA NIM deployment for portable performance across different GPU platforms and memory configurations.",
+    ],
+    correct: 3,
+  },
+  {
+    id: 86,
+    question:
+      "Your team has built an agent using LangChain and needs to implement guardrails for deployment in a production environment. Which approach represents the MOST effective integration of NVIDIA NeMo Guardrails?",
+    options: [
+      "Rebuild the agent using only NeMo Guardrails, thereby reconstructing the LangChain implementation with enhanced safety controls and production-ready guardrail integration.",
+      "Wrap the LangChain agent with NeMo Guardrails configuration while maintaining the existing workflow architecture and preserving current development investments.",
+      "Configure input filtering to address safety requirements, integrating guardrail mechanisms focused on data validation and moderation within the current framework.",
+      "Run the LangChain agent in parallel with NeMo Guardrails, allowing comparison of outputs between systems for comprehensive safety validation and performance optimization.",
+    ],
+    correct: 1,
+  },
+  {
+    id: 87,
+    question:
+      "A company is building an AI agent that must retrieve information from large document collections and client databases in real time. The team wants to ensure fast, accurate retrieval and maintain high data quality. Which approach best supports efficient knowledge integration and effective data handling for such an agent?",
+    options: [
+      "Using traditional relational databases because they don't need specialized retrieval mechanisms for all data queries.",
+      "Integrating client data sources as they already incorporate data quality checks or augmentation to speed up deployment.",
+      "Relying on pre-trained models instead of connecting to external knowledge sources during inference.",
+      "Implementing retrieval-augmented generation (RAG) pipelines combined with vector databases to accelerate access to relevant information.",
+    ],
+    correct: 3,
+  },
+  {
+    id: 88,
+    question:
+      "A development team is building an AI agent capable of autonomously planning and executing multi-step tasks while retaining context and learning from past interactions. Which practice is most important to enable the agent to effectively manage long-term memory and complex tasks?",
+    options: [
+      "Implement memory mechanisms for context retention and apply chain-of-thought prompts to enhance reasoning.",
+      "Use basic rule-based decision methods that emphasize fast responses over adaptive planning.",
+      "Apply short-term memory approaches that handle each interaction independently of previous ones.",
+      "Reduce planning features and memory management to keep the system streamlined.",
+    ],
+    correct: 0,
+  },
+  {
+    id: 89,
+    question:
+      "When evaluating GPU utilization inefficiencies in deploying Llama Nemotron models across A100 and H100 clusters, which approaches help identify optimal resource allocation strategies? (Choose two.)",
+    options: [
+      "Allow Nemotron variants to profile actual workload characteristics and allocate resources based on observed demands.",
+      "Profile resource utilization for each Nemotron variant and match models to appropriate GPU tiers.",
+      "Allocate all agents to H100 GPUs, allowing resource profiles to automatically adjust for model size and computational requirements.",
+      "Assess concurrent execution capabilities by employing multi-instance GPU partitioning for varying workload types.",
+    ],
+    correct: [1, 3],
+    multiCorrect: true,
+  },
+  {
+    id: 90,
+    question:
+      "An AI Engineer is analyzing a production agentic AI system's compliance with responsible AI standards. Which evaluation approaches effectively identify potential safety vulnerabilities and ethical risks in multi-agent workflows? (Choose two.)",
+    options: [
+      "Emphasize latency metrics and throughput performance as key evaluation factors for safety vulnerabilities, providing a baseline for operational measures and resource allocation.",
+      "Implement comprehensive audit trails using NVIDIA NeMo Guardrails with semantic similarity checks, tracking agent decisions across conversation flows and evaluating policy violations through automated compliance scoring.",
+      "Use user feedback as a primary signal for risk identification, emphasizing post-deployment observations and qualitative experience reports alongside operational monitoring.",
+      "Deploy multi-layered evaluation combining bias detection metrics (demographic parity, equalized odds) with adversarial testing to probe agent responses for harmful outputs across diverse user populations.",
+    ],
+    correct: [1, 3],
+    multiCorrect: true,
+  },
+  {
+    id: 91,
+    question:
+      "In a production agentic system handling thousands of concurrent conversations, which state management strategy provides optimal performance while ensuring context preservation?",
+    options: [
+      "Global shared state with locks for concurrent access.",
+      "Session-isolated state with serialization and lazy loading.",
+      "Stateless design with context reconstruction from message history.",
+    ],
+    correct: 1,
+  },
+  {
+    id: 92,
+    question:
+      "Your support agent frequently fails to complete tasks when third-party tools return unexpected formats. Which solution improves resilience against these failures?",
+    options: [
+      "Add robust schema validation and exception handling for all tool outputs.",
+      "Use deterministic temperature settings for all generations.",
+      "Reduce the number of tools available to avoid bad integrations.",
+      "Re-train the model to avoid the use of third-party tools entirely.",
+    ],
+    correct: 0,
+  },
 ];
