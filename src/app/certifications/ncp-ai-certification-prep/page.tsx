@@ -603,7 +603,8 @@ NVIDIA Platform:              7%  (~5 questions)  ← Small but specific`,
 
 export default function NcpCertificationPrep() {
   const [showAnswers, setShowAnswers] = useState(false);
-  const [view, setView] = useState<"questions" | "cheatsheet">("questions");
+  const [view, setView] = useState<"questions" | "cheatsheet">("cheatsheet");
+  const [showModal, setShowModal] = useState(false);
 
   const isCorrect = (q: typeof ncpQuestions[number], idx: number) => {
     if (Array.isArray(q.correct)) {
@@ -641,7 +642,7 @@ export default function NcpCertificationPrep() {
           <p className="text-[var(--muted)] mb-8">
             {view === "questions"
               ? "92 practice questions for the NVIDIA-Certified Professional Agentic AI exam."
-              : "Comprehensive exam reference based on preporato.com (2026 edition)."}
+              : "Comprehensive exam reference for the NVIDIA-Certified Professional Agentic AI exam."}
           </p>
         </motion.div>
 
@@ -777,32 +778,24 @@ export default function NcpCertificationPrep() {
 
       {/* Fixed bottom controls */}
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-[var(--background)] border border-[var(--border)] rounded-full px-2 py-1.5 shadow-lg">
-        {/* View toggle */}
+        {/* View toggle — pill stays, Cheat Sheet always active on left */}
         <div className="relative flex items-center bg-[var(--card)] rounded-full p-0.5">
           <motion.div
             layoutId="view-pill"
-            className="absolute inset-y-0.5 rounded-full bg-[var(--foreground)]"
-            style={{ width: "calc(50% - 2px)" }}
-            animate={{ left: view === "questions" ? "2px" : "calc(50% + 0px)" }}
+            className="absolute inset-y-0.5 rounded-full bg-[var(--foreground)] left-0"
+            style={{ width: "calc(100% - 4px)" }}
+            animate={{ opacity: 1 }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
           />
           <button
-            onClick={() => setView("questions")}
-            className={`relative z-10 px-4 py-1.5 text-xs font-medium rounded-full transition-colors ${
-              view === "questions"
-                ? "text-[var(--background)]"
-                : "text-[var(--muted)]"
-            }`}
+            onClick={() => setShowModal(true)}
+            className="relative z-10 px-4 py-1.5 text-xs font-medium rounded-full text-[var(--muted)] transition-colors"
           >
             Questions
           </button>
           <button
             onClick={() => setView("cheatsheet")}
-            className={`relative z-10 px-4 py-1.5 text-xs font-medium rounded-full transition-colors ${
-              view === "cheatsheet"
-                ? "text-[var(--background)]"
-                : "text-[var(--muted)]"
-            }`}
+            className="relative z-10 px-4 py-1.5 text-xs font-medium rounded-full text-[var(--background)] transition-colors"
           >
             Cheat Sheet
           </button>
@@ -826,6 +819,53 @@ export default function NcpCertificationPrep() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Modal gate for Questions */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+            onClick={() => setShowModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-[var(--background)] border border-[var(--border)] rounded-2xl p-8 max-w-sm w-full text-center shadow-xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="text-xl font-semibold mb-2">Case Study Questions</h2>
+              <p className="text-[var(--muted)] text-sm mb-6">
+                92 practice questions to test your knowledge.
+              </p>
+              <p className="text-sm font-medium mb-6 text-[var(--foreground)]">
+                Have you built enough agents?<br />
+                Did you study enough?
+              </p>
+              <div className="flex flex-col gap-3">
+                <button
+                  onClick={() => {
+                    setView("questions");
+                    setShowModal(false);
+                  }}
+                  className="w-full px-6 py-3 text-sm font-medium bg-[var(--foreground)] text-[var(--background)] rounded-full hover:opacity-80 transition-opacity"
+                >
+                  Yes — let me practice!
+                </button>
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="w-full px-6 py-3 text-sm font-medium border border-[var(--border)] text-[var(--muted)] rounded-full hover:bg-[var(--card)] transition-colors"
+                >
+                  No — keep reviewing
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
